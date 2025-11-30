@@ -1,4 +1,4 @@
-# Med Vision AI Agent 🩺
+ # Med Vision AI Agent 🩺
 
 [![ModelScope](https://img.shields.io/badge/Demo-ModelScope-purple?style=for-the-badge&logo=modelscope)](https://modelscope.cn/studios/Zaoshangzhou/Med-Vision-AI-Agent-v0.2/summary)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
@@ -6,8 +6,8 @@
 ![YOLO](https://img.shields.io/badge/CV-YOLO11-orange?style=for-the-badge)
 ![Qwen-VL](https://img.shields.io/badge/LLM-Qwen2--VL-blueviolet?style=for-the-badge)
 
-> **Next-Generation Medical Imaging Analysis Platform**  
-> 结合 **YOLO** 实时目标检测与 **Qwen-VL** 多模态大模型的智能医疗辅助诊断系统。
+**Next-Generation Medical Imaging Analysis Platform**  
+结合 **YOLO** 实时目标检测与 **Qwen-VL** 多模态大模型的智能医疗辅助诊断系统。
 
 <!-- 项目截图展示 -->
 <p align="center">
@@ -46,7 +46,7 @@ The project is deployed on ModelScope Studios. Feel free to try it out!
     *   **Smart Gallery**: 
         *   **Images**: Processed results are displayed in a gallery below. Clicking a thumbnail opens a **Side-by-Side Comparison** modal (Original vs. Annotated). Both versions can be downloaded independently.
         *   **Videos**: Direct preview of the annotated video stream in the browser.
-    *   **智能画廊**：推理完成后，结果显示在下方。点击缩略图可放大查看**“原图 vs 标注图”**的左右对比，且支持独立下载任意一张图片。视频文件支持直接在线预览推理结果。
+    *   **智能画廊**：推理完成后，结果显示在下方。点击缩略图可放大查看“原图 vs 标注图”的左右对比，且支持独立下载任意一张图片。视频文件支持直接在线预览推理结果。
 
 3.  **🤖 Multimodal AI Assistant (多模态 AI 助手)**
     *   Powered by **Qwen2-VL-8B-Instruct** (via API).
