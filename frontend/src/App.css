@@ -1,0 +1,220 @@
+/* frontend/src/App.css */
+
+:root {
+  --bg-dark: #09090b; 
+  --bg-gradient: radial-gradient(circle at 10% 20%, #1a1d2d 0%, #000000 100%);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-hover: rgba(255, 255, 255, 0.08);
+  --primary: #3b82f6;
+  --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  --text-main: #f8fafc;
+  --text-dim: #94a3b8;
+  --danger: #ef4444;
+  --success: #10b981;
+}
+
+body {
+  margin: 0; background: var(--bg-dark); background-image: var(--bg-gradient);
+  color: var(--text-main); font-family: 'Inter', system-ui, sans-serif;
+  height: 100vh; overflow: hidden;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+
+.app-layout { display: flex; flex-direction: column; height: 100vh; backdrop-filter: blur(20px); }
+
+/* Navbar */
+.navbar {
+  height: 60px; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--glass-border); display: flex; align-items: center;
+  justify-content: space-between; padding: 0 24px; z-index: 10;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand h1 { 
+  font-size: 1.25rem; font-weight: 700; margin: 0; 
+  background: linear-gradient(90deg, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.status-pill { 
+  font-size: 0.75rem; background: rgba(16, 185, 129, 0.1); padding: 6px 16px; 
+  border-radius: 99px; color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2);
+  display: flex; align-items: center; gap: 8px; font-weight: 500; min-height: 20px;
+}
+
+/* Grid */
+.content-grid { flex: 1; display: grid; grid-template-columns: 280px 1fr 380px; overflow: hidden; }
+.sidebar, .workspace, .chat-panel { display: flex; flex-direction: column; padding: 20px; gap: 20px; overflow-y: auto; }
+.sidebar { background: rgba(0,0,0,0.2); border-right: 1px solid var(--glass-border); }
+.chat-panel { background: rgba(0,0,0,0.2); border-left: 1px solid var(--glass-border); }
+.workspace { background: transparent; }
+
+.panel {
+  background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px;
+  padding: 16px; display: flex; flex-direction: column; transition: 0.2s;
+}
+.panel:hover { border-color: rgba(255,255,255,0.15); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5); }
+.panel h3 { margin: 0 0 12px 0; font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+/* 🔥 修复 1：让日志区域强制撑满 */
+.flex-grow { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
+/* Upload & Model */
+.file-drop-area {
+  border: 1px dashed var(--glass-border); border-radius: 12px; padding: 24px;
+  text-align: center; cursor: pointer; color: var(--text-dim);
+  display: flex; flex-direction: column; align-items: center; gap: 10px; background: rgba(0,0,0,0.2); transition: 0.3s;
+}
+.file-drop-area:hover { border-color: #60a5fa; color: #60a5fa; background: rgba(59, 130, 246, 0.05); transform: translateY(-2px); }
+
+.active-model-card {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 12px; padding: 12px;
+  display: flex; align-items: center; gap: 12px; position: relative; overflow: hidden;
+}
+.active-model-card::after {
+  content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); animation: shimmer 3s infinite;
+}
+@keyframes shimmer { 100% { left: 100%; } }
+
+.model-info { display: flex; flex-direction: column; overflow: hidden; flex: 1; justify-content: center; gap: 2px; }
+.model-info .label { font-size: 0.65rem; color: #34d399; opacity: 0.8; line-height: 1; }
+.model-info .name { font-size: 0.9rem; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
+.clear-model-btn {
+  background: transparent; border: none; color: rgba(255,255,255,0.4);
+  cursor: pointer; padding: 6px; border-radius: 6px; transition: 0.2s;
+  display: flex; align-items: center; justify-content: center; z-index: 2;
+}
+.clear-model-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+
+.stats-row { display: flex; gap: 12px; margin-bottom: 12px; }
+.stat { flex: 1; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 12px; text-align: center; border: 1px solid var(--glass-border); }
+.stat strong { background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.4rem; display: block; }
+
+/* 🔥 修复 1：让 Log 区域占满父容器 */
+.log-console { 
+  flex: 1; /* 关键 */
+  background: #050505; border: 1px solid var(--glass-border); 
+  color: #10b981; border-radius: 12px; padding: 12px; 
+  font-family: monospace; font-size: 0.8rem; 
+  min-height: 0; /* 防止溢出 */
+  resize: none; 
+}
+
+/* Workspace */
+.tabs { display: flex; gap: 8px; margin-bottom: 10px; background: rgba(0,0,0,0.3); padding: 6px; border-radius: 12px; width: fit-content; }
+.tab-btn { background: transparent; border: none; color: var(--text-dim); padding: 8px 16px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 500; border-radius: 8px; transition: 0.3s; }
+.tab-btn.active { background: var(--glass-hover); color: white; }
+.workspace-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+.clear-btn {
+  margin-top: auto; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border);
+  color: var(--text-dim); padding: 10px; border-radius: 12px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 0.85rem; transition: 0.2s; width: 100%; box-sizing: border-box;
+}
+.clear-btn:hover { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: #fca5a5; }
+
+/* Image Mode */
+.image-mode { display: flex; flex-direction: column; gap: 15px; height: 100%; }
+.drop-zone {
+  border: 2px dashed var(--glass-border); border-radius: 16px; min-height: 120px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: var(--text-dim); cursor: pointer; background: rgba(255,255,255,0.01); transition: 0.3s;
+}
+.drop-zone:hover { border-color: #8b5cf6; color: #c084fc; background: rgba(139, 92, 246, 0.05); }
+
+.run-btn {
+  margin: 0; background: var(--primary-gradient); color: white; border: none; padding: 14px;
+  border-radius: 12px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+  transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.run-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(59, 130, 246, 0.6); }
+.run-btn:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
+
+.gallery-container { 
+  flex: 1; background: rgba(0,0,0,0.2); border-radius: 16px; 
+  padding: 20px; border: 1px solid var(--glass-border); overflow-y: auto;
+}
+.img-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
+.img-card { aspect-ratio: 1; border-radius: 12px; overflow: hidden; border: 1px solid var(--glass-border); position: relative; cursor: pointer; background: #000; transition: 0.2s; }
+.img-card:hover { transform: scale(1.02); border-color: #60a5fa; z-index: 2; }
+.img-card img { width: 100%; height: 100%; object-fit: cover; }
+.status-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); color: #34d399; font-size: 0.6rem; padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(52, 211, 153, 0.3); }
+
+/* 🔥 修复 2：Video Mode & Labels */
+.video-mode { display: flex; flex-direction: column; gap: 15px; height: 100%; min-height: 0; }
+.video-compare { 
+  flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; 
+  min-height: 0; overflow: hidden;
+}
+.v-box { 
+  background: #000; border-radius: 16px; border: 1px solid var(--glass-border);
+  display: flex; flex-direction: column; overflow: hidden; position: relative; 
+  align-items: center; justify-content: center;
+}
+/* 美化标签 */
+.video-label { 
+  position: absolute; top: 12px; left: 12px; 
+  background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px);
+  padding: 6px 12px; font-size: 0.75rem; border-radius: 99px; z-index: 10; color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex; align-items: center; gap: 6px; font-weight: 500;
+}
+.v-box video { 
+  width: 100%; height: 100%; 
+  object-fit: contain; /* 关键：视频不会被放大裁剪 */
+  display: block;
+}
+.video-mode .drop-zone { min-height: 100px; flex-shrink: 0; }
+
+/* Progress Bar (保持不变) */
+.progress-container { margin-bottom: 12px; background: rgba(0, 0, 0, 0.3); padding: 10px; border-radius: 12px; border: 1px solid var(--glass-border); }
+.progress-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-dim); margin-bottom: 6px; }
+.progress-bar-bg { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: var(--primary-gradient); transition: width 0.3s ease; box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
+
+/* Chat */
+.chat-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; }
+.chat-actions { display: flex; gap: 8px; }
+.icon-btn { background: rgba(255,255,255,0.05); border: 1px solid transparent; color: var(--text-dim); padding: 8px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+.icon-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+.chat-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; padding: 10px 4px; }
+.msg { display: flex; flex-direction: column; max-width: 90%; gap: 4px; }
+.msg.user { align-self: flex-end; align-items: flex-end; }
+.msg.bot { align-self: flex-start; }
+.bubble { padding: 12px 18px; border-radius: 18px; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+.msg.user .bubble { background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%); color: white; border-bottom-right-radius: 4px; }
+.msg.bot .bubble { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-main); border-bottom-left-radius: 4px; }
+.chat-input-area { display: flex; gap: 10px; padding-top: 15px; border-top: 1px solid var(--glass-border); }
+.chat-input-area textarea { flex: 1; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); color: white; border-radius: 12px; padding: 12px 16px; resize: none; height: 48px; font-family: inherit; transition: 0.2s; }
+.chat-input-area textarea:focus { outline: none; border-color: var(--primary); }
+.chat-input-area button { width: 48px; height: 48px; background: var(--glass-hover); border: 1px solid var(--glass-border); color: white; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+.chat-input-area button:hover { background: var(--primary); border-color: var(--primary); }
+.stop-btn { background: var(--danger) !important; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 6px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+
+/* Gemini & Lightbox (No changes needed, included implicitly) */
+.gemini-loader-container { display: flex; align-items: center; gap: 10px; }
+.gemini-text { font-size: 0.85rem; background: linear-gradient(90deg, #60a5fa, #c084fc, #60a5fa); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientText 3s linear infinite; font-weight: 500; }
+@keyframes gradientText { to { background-position: 200% center; } }
+.gemini-star { position: relative; animation: spin 4s linear infinite; }
+.gemini-star.normal { width: 24px; height: 24px; }
+.gemini-star.small { width: 16px; height: 16px; }
+.gemini-star::before, .gemini-star::after { content: ""; position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; background: linear-gradient(45deg, #3b82f6, #a855f7, #ec4899); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); transform: translate(-50%, -50%); }
+.gemini-star::after { filter: blur(4px); opacity: 0.7; z-index: -1; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.lightbox-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); z-index: 2000; display: flex; align-items: center; justify-content: center; }
+.lightbox-container { width: 95%; height: 90%; display: flex; flex-direction: column; position: relative; }
+.lb-header { height: 40px; display: flex; justify-content: space-between; align-items: center; color: var(--text-dim); margin-bottom: 10px; }
+.lb-close-btn { background: transparent; border: none; color: white; cursor: pointer; }
+.lb-content { flex: 1; display: flex; gap: 40px; align-items: center; justify-content: center; min-height: 0; }
+.lb-pane { flex: 1; height: 100%; display: flex; flex-direction: column; background: #000; border: 1px solid #333; box-shadow: 0 20px 50px -10px rgba(0,0,0,0.5); border-radius: 8px; overflow: hidden; }
+.lb-pane-head { padding: 8px 15px; background: #1a1a1a; color: #aaa; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
+.lb-pane-head button { background: transparent; border: 1px solid #555; color: #ddd; padding: 4px 8px; border-radius: 4px; cursor: pointer; display: flex; }
+.lb-pane img { flex: 1; width: 100%; height: 100%; object-fit: contain; }
+.lb-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.08); backdrop-filter: blur(4px); width: 60px; height: 60px; border-radius: 50%; border: none; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
+.lb-nav:hover { background: rgba(255,255,255,0.2); transform: translateY(-50%) scale(1.1); }
+.lb-nav.prev { left: -30px; } .lb-nav.next { right: -30px; }
