@@ -1,0 +1,31 @@
+# 使用轻量级 Python 3.9 镜像
+FROM python:3.10-slim
+
+# 设置工作目录
+WORKDIR /app
+
+# 安装 OpenCV 运行所需的系统依赖 (GL库)
+RUN apt-get update && apt-get install -y \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# 先复制依赖文件并安装 (利用缓存层)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 复制所有项目文件 (包括 Python 代码和 frontend_build 文件夹)
+COPY . .
+
+# 创建必要的临时文件夹并设置权限 (防止 Permission Denied)
+RUN mkdir -p uploads reports temp_qwen_input && \
+    chmod 777 uploads reports temp_qwen_input
+
+RUN mkdir -p uploads reports temp_qwen_input frontend_build && \
+    chmod -R 777 uploads reports temp_qwen_input frontend_build
+
+# 暴露端口 7860
+EXPOSE 7860
+
+# 启动命令
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860"]
